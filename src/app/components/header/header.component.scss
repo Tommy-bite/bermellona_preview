@@ -1,0 +1,52 @@
+i{
+    font-size: 32px;
+    color: gray;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    cursor: pointer;
+}
+
+i.bi-search{
+    font-size: 18px;
+}
+
+i:hover{
+    color: #fce1d6;
+}
+
+
+.input-group {
+    width: 45%;
+}
+
+@media (max-width: 768px) {
+    .input-group {
+        width: 100%;
+    }
+
+}
+
+a{
+    font-family: 'monserrat';
+    color: grey;
+    font-size: 25px;
+}
+
+
+@media (max-width: 768px) {
+    a{
+        font-size: 17px;
+    }
+}
+
+a .titulo-1:hover{
+    color: #ecb49e;
+}
+
+a .titulo-2:hover{
+    color: #aaf5c9;
+}
+
+
+
+
