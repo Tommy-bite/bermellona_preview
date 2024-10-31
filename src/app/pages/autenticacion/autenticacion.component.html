@@ -1,0 +1,228 @@
+<app-redes-sociales></app-redes-sociales>
+<app-header></app-header>
+
+<div class="container">
+
+  <div *ngIf="seRegistroElUsuario" style="height: 60vh;">
+    <h3 class="text-center mt-5">Gracias por registrarte en Bermellona ❤️. Te hemos enviado un correo electronico para que confirmes tu cuenta y puedas iniciar sesión.</h3>
+  </div>
+
+  <div class="row py-3 d-flex justify-content-center" *ngIf="!seRegistroElUsuario">
+    <div class="col-12 col-md-6 col-lg-6">
+      <form>
+        <h4>Inicia Sesion</h4>
+
+        <div class="card shadow-lg mb-5 p-4 border-0 rounded-3">
+          <div class="card-content">
+            <div class="container my-3">
+              <h6>Inicia Sesión con tu usuario o con tu cuenta Google</h6>
+              <div class="mb-3">
+                <label for="emailLogin" class="form-label">Correo Electrónico</label>
+                <input type="email" class="form-control" id="emailLogin" aria-describedby="emailLogin"
+                  autocomplete="username" />
+              </div>
+
+              <div class="mb-3">
+                <label for="passwordLogin" class="form-label">Contraseña</label>
+                <div class="input-group">
+                  <input [type]="showPasswordLogin ? 'text' : 'password'" class="form-control" id="passwordLogin"
+                    placeholder="**********" autocomplete="current-password" />
+                  <span class="input-group-text" (click)="togglePasswordLogin()" style="cursor: pointer">
+                    <i [ngClass]="
+                        showPasswordLogin
+                          ? 'bi bi-eye-slash-fill'
+                          : 'bi bi-eye-fill'
+                      "></i>
+                  </span>
+                </div>
+              </div>
+              <div class="text-end my-2">
+                <a [routerLink]="['/recuperar']" class="text-decoration-none text-black">¿Olvidaste tu contraseña?</a>
+              </div>
+              <button class="btn btn-success w-100 rounded-pill">
+                <i class="bi bi-send"></i>
+                Iniciar Sesión
+              </button>
+              <div class="text-center my-3">
+                <hr class="hr-custom" />
+                <span>ó</span>
+                <hr class="hr-custom" />
+              </div>
+              <button class="btn btn-success w-100 rounded-pill btn-google">
+                <i class="bi bi-google"></i>
+                Inicia Sesion con Google
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="col-12 col-md-6 col-lg-6">
+      <form (ngSubmit)="registrar()" [formGroup]="formRegistro" class="needs-validation" novalidate>
+        <h4>Registrate</h4>
+        <div class="card shadow-lg p-4 border-0 rounded-3">
+          <div class="card-content">
+            <div class="container my-3">
+              <h6>
+                Llena el formulario o ingresa con tu cuenta Google para
+                registrarte
+              </h6>
+              <div class="row">
+                <div class="col-12 col-md-12 col-lg-6">
+                  <div class="mb-3 has-validation">
+                    <label for="nombre" class="form-label">Nombre <span class="text-danger">*</span>
+                    </label>
+                    <input type="text" class="form-control" id="nombre" placeholder="María" formControlName="first_name"
+                      name="first_name" required [ngClass]="{
+                        'is-invalid':
+                          formRegistro.get('first_name')?.invalid &&
+                          formRegistro.get('first_name')?.touched
+                      }" />
+                    <div class="text-danger fw-bold" *ngIf="
+                        formRegistro.get('first_name')?.hasError('required') &&
+                        formRegistro.get('first_name')?.touched
+                      ">
+                      Campo requerido
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-md-12 col-lg-6">
+                  <div class="mb-3">
+                    <label for="apellido" class="form-label">Apellido</label>
+                    <input type="text" class="form-control" id="apellido" placeholder="Magdalena"
+                      formControlName="last_name" name="last_name" [ngClass]="{
+                        'is-invalid':
+                          formRegistro.get('last_name')?.invalid &&
+                          formRegistro.get('last_name')?.touched
+                      }" />
+                    <div class="text-danger fw-bold" *ngIf="
+                      formRegistro.get('last_name')?.hasError('required') &&
+                      formRegistro.get('last_name')?.touched
+                    ">
+                      Campo requerido
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12">
+                  <div class="mb-3">
+                    <label for="email" class="form-label">Correo Electrónico</label>
+                    <input type="email" class="form-control" id="email" placeholder="maria.magdalena@gmail.com"
+                      formControlName="email" name="email" autocomplete="username" [ngClass]="{
+                        'is-invalid':
+                          formRegistro.get('email')?.invalid &&
+                          formRegistro.get('email')?.touched
+                      }" />
+                    <div class="text-danger fw-bold" *ngIf="
+                        formRegistro.get('email')?.hasError('required') &&
+                        formRegistro.get('email')?.touched
+                      ">
+                      Campo requerido
+                    </div>
+                    <div class="text-danger fw-bold" *ngIf="
+                        formRegistro.get('email')?.hasError('email') &&
+                        formRegistro.get('email')?.touched
+                      ">
+                      Ingrese email válido
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="password" class="form-label">Contraseña</label>
+                <div class="input-group">
+                  <input [type]="showPassword ? 'text' : 'password'" class="form-control" id="password"
+                    placeholder="**********" formControlName="password" name="password" autocomplete="new-password"
+                    [ngClass]="{
+                        'is-invalid':
+                          formRegistro.get('password')?.invalid &&
+                          formRegistro.get('password')?.touched
+                      }" />
+                  <span class="input-group-text" (click)="togglePassword()" style="cursor: pointer">
+                    <i [ngClass]="
+                        showPassword ? 'bi bi-eye-slash-fill' : 'bi bi-eye-fill'
+                      "></i>
+                  </span>
+                </div>
+                <div class="text-danger fw-bold" *ngIf="
+                    formRegistro.get('password')?.hasError('required') &&
+                    formRegistro.get('password')?.touched
+                  ">
+                  Campo requerido
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="re-password" class="form-label">Repite Contraseña</label>
+                <div class="input-group">
+                  <input [type]="showRePassword ? 'text' : 'password'" class="form-control" id="re-password"
+                    placeholder="**********" formControlName="rePassword" name="rePassword" autocomplete="new-password"
+                    [ngClass]="{
+                        'is-invalid':
+                          formRegistro.get('rePassword')?.invalid &&
+                          formRegistro.get('rePassword')?.touched || 
+                          formRegistro.hasError('passwordMismatch') && formRegistro.touched
+                      }" />
+                  <span class="input-group-text" (click)="toggleRePassword()" style="cursor: pointer">
+                    <i [ngClass]="
+                        showRePassword
+                          ? 'bi bi-eye-slash-fill'
+                          : 'bi bi-eye-fill'
+                      "></i>
+                  </span>
+                </div>
+                <div class="text-danger fw-bold" *ngIf="
+                  formRegistro.get('rePassword')?.hasError('required') &&
+                  formRegistro.get('rePassword')?.touched
+                ">
+                  Campo requerido
+                </div>
+                <div class="text-danger fw-bold" *ngIf="formRegistro.hasError('passwordMismatch') && formRegistro.touched">
+                  Las contraseñas no coinciden.
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <input type="checkbox" id="acepto_terminos" formControlName="acepto_terminos" name="acepto_terminos"
+                  required [ngClass]="{
+                    'is-invalid':
+                      formRegistro.get('acepto_terminos')?.invalid &&
+                      formRegistro.get('acepto_terminos')?.touched
+                  }" />
+                <label for="acepto_terminos" class="ms-3">
+                  Acepto los
+                  <a href="/terminos" target="_blank">Términos del Servicio</a>
+                  y la
+                  <a href="/privacidad" target="_blank">Política de Privacidad</a>
+                </label>
+                <div class="text-danger" *ngIf="
+                    formRegistro.get('acepto_terminos')?.invalid &&
+                    formRegistro.get('acepto_terminos')?.touched
+                  ">
+                  Debes aceptar los términos del servicio y la política de
+                  privacidad para continuar.
+                </div>
+              </div>
+
+              <button type="submit" class="btn btn-success w-100 rounded-pill">
+                <i class="bi bi-box-arrow-in-right"></i>
+                Registrarse
+              </button>
+              <div class="text-center my-3">
+                <hr class="hr-custom" />
+                <span>ó</span>
+                <hr class="hr-custom" />
+              </div>
+              <button type="button" class="btn btn-success w-100 rounded-pill btn-google">
+                <i class="bi bi-google"></i>
+                Registrate con Google
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<app-footer  ></app-footer>

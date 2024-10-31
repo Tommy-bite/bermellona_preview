@@ -1,12 +1,14 @@
 {
   "name": "bermellona-preview",
   "version": "0.0.0",
+  "homepage": "https://tommy-bite.github.io/bermellona_preview",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "deploy": "npm run build && gh-pages -d dist/bermellona_preview"
   },
   "private": true,
   "dependencies": {
@@ -20,8 +22,11 @@
     "@angular/router": "^18.2.0",
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",
+    "nanoid": "^5.0.7",
+    "notiflix": "^3.2.7",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
+    "uuid": "^10.0.0",
     "zone.js": "~0.14.10"
   },
   "devDependencies": {
@@ -30,6 +35,9 @@
     "@angular/compiler-cli": "^18.2.0",
     "@types/bootstrap": "^5.2.10",
     "@types/jasmine": "~5.1.0",
+    "@types/uuid": "^10.0.0",
+    "angular-cli-ghpages": "^2.0.1",
+    "gh-pages": "^6.2.0",
     "jasmine-core": "~5.2.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",

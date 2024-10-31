@@ -1,0 +1,81 @@
+h4{
+    color: #333;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+h6{
+    color: #333;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 3rem; 
+}
+
+hr{
+    margin: 3rem 0;
+}
+
+.card {
+    background-color: #f9f9f9; /* Color de fondo claro */
+    border-radius: 10px; /* Bordes suaves */
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1); /* Sombra para dar efecto de elevación */
+}
+
+.card .form-control {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.card .btn {
+    background-color: #ecb49e; /* Color verde para el botón */
+    border: none;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: .5s ease;
+    color: black;
+}
+
+.card .btn:hover {
+    background-color: #aaf5c9; /* Un verde más oscuro al pasar el mouse */
+    color: black;
+}
+
+.card .form-text {
+    font-size: 0.9rem;
+    color: #6c757d;
+}
+
+
+.card .btn-google {
+    background: #ecb49e;
+    color: black;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    transition: background 0.5s ease, color 0.5s ease; /* Transición suave para el fondo */
+}
+
+.card .btn-google:hover {
+    background: linear-gradient(
+        45deg,            /* Ángulo de 45 grados para las franjas diagonales */
+        #4285F4 25%,      /* Azul Google */
+        #DB4437 25%,      /* Rojo Google */
+        #DB4437 50%,      /* Rojo Google */
+        #F4B400 50%,      /* Amarillo Google */
+        #F4B400 75%,      /* Amarillo Google */
+        #0F9D58 75%       /* Verde Google */
+    );
+    color: white;
+}
+
+.hr-custom {
+    display: inline-block; /* Para que se alineen horizontalmente */
+    width: 40%; /* Ajusta el ancho de las líneas */
+    margin: 0 10px; /* Espacio entre las líneas y el texto */
+    border: 1px solid #000; /* Color y grosor de las líneas */
+}
+
+
