@@ -1,22 +1,51 @@
-import { CurrencyPipe, NgFor } from '@angular/common';
-import { Component } from '@angular/core';
-
+import { CurrencyPipe, NgFor, NgIf } from '@angular/common';
+import { Component, OnInit, Provider } from '@angular/core';
+import { Producto } from '../../interfaces/producto';
+import { CarritoService } from '../../services/carrito.service';
+import { ProductosService } from '../../services/productos.service';
+import { MonedaChilenaPipe } from '../../pipes/moneda-chilena.pipe';
+import { Router, RouterModule } from '@angular/router';
 
 
 @Component({
   selector: 'app-productos',
   standalone: true,
-  imports: [CurrencyPipe, NgFor],
+  imports: [CurrencyPipe, NgFor, NgIf, MonedaChilenaPipe, RouterModule],
   templateUrl: './productos.component.html',
   styleUrl: './productos.component.scss'
 })
-export class ProductosComponent {
-  productos = [
-    { nombre: 'Aros', descripcion: 'Bonitos aros para lucir este verano', precio: 25000, imagen: '/image9.jpg' },
-    { nombre: 'Aros', descripcion: 'Bonitos aros para lucir este verano', precio: 25000, imagen: '/image6.jpg' },
-    { nombre: 'Aros', descripcion: 'Bonitos aros para lucir este verano', precio: 25000, imagen: '/image5.jpg' },
-    { nombre: 'Aros', descripcion: 'Bonitos aros para lucir este verano', precio: 25000, imagen: '/image4.jpg' },
-    { nombre: 'Aros', descripcion: 'Bonitos aros para lucir este verano', precio: 25000, imagen: '/image7.jpg' },
-    { nombre: 'Aros', descripcion: 'Bonitos aros para lucir este verano', precio: 25000, imagen: '/image8.jpg' },
-  ];
+export class ProductosComponent implements OnInit {
+
+  productos !: Producto[];
+
+  constructor(private carritoService: CarritoService, private productosService : ProductosService) {
+  }
+
+  ngOnInit(): void {
+    this.productosService.obtenerProductosDestacados().subscribe({
+      next: (resp: Producto[]) => {
+        this.productos = resp;
+      },
+      error: (error: any) => {
+        console.log(error);
+      }
+    })
+  }
+
+  agregarAlCarrito(producto: Producto) {
+    if (producto) {
+      this.carritoService.agregarAlCarrito(producto);
+    }
+  }
+
+  quitarDelCarrito(producto: Producto) {
+    if (producto) {
+      this.carritoService.quitarDelCarrito(producto);
+    }
+  }
+
+  enCarrito(producto: Producto): boolean {
+    return this.carritoService.productoEnCarrito(producto);
+  }
+
 }

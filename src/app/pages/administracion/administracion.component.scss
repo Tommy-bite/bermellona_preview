@@ -1,0 +1,47 @@
+/* Centramos las pestañas */
+.nav-tabs {
+    justify-content: center;
+}
+
+/* Estilo personalizado para los botones de pestañas */
+.nav-tabs .nav-link {
+    color: white;
+    background-color: #007bff;
+    border-radius: 5px;
+    margin: 0 5px;
+    /* Espaciado entre pestañas */
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Hover y activo */
+.nav-tabs .nav-link:hover,
+.nav-tabs .nav-link.active {
+    color: #007bff;
+    background-color: white;
+    border: 1px solid #007bff;
+}
+
+/* Íconos dentro de las pestañas */
+.nav-tabs .nav-link i {
+    margin-right: 5px;
+    /* Espaciado entre el ícono y el texto */
+}
+
+
+/* Estilo general de la tabla */
+table {
+    width: 100%;
+}
+
+
+td,
+th,
+tr {
+    text-align: center;
+}
+
+td {
+    font-size: 15px;
+    font-weight: bold;
+    padding: 8px;
+}

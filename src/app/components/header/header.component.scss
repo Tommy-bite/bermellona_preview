@@ -1,6 +1,6 @@
 i{
     font-size: 32px;
-    color: gray;
+    color: white;
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
     text-align: center;
     cursor: pointer;
@@ -11,7 +11,7 @@ i.bi-search{
 }
 
 i:hover{
-    color: #fce1d6;
+    color: #aaf5c9;
 }
 
 
@@ -39,16 +39,15 @@ a{
     }
 }
 
-a .titulo-1:hover{
+a .titulo-1{
     color: #ecb49e;
 }
 
-a .titulo-2:hover{
+a .titulo-2{
     color: #aaf5c9;
 }
 
-
-
-
-
+i span{
+    font-size: 12px;
+}
 

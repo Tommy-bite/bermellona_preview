@@ -49,28 +49,6 @@ hr{
 }
 
 
-.card .btn-google {
-    background: #ecb49e;
-    color: black;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    transition: background 0.5s ease, color 0.5s ease; /* Transición suave para el fondo */
-}
-
-.card .btn-google:hover {
-    background: linear-gradient(
-        45deg,            /* Ángulo de 45 grados para las franjas diagonales */
-        #4285F4 25%,      /* Azul Google */
-        #DB4437 25%,      /* Rojo Google */
-        #DB4437 50%,      /* Rojo Google */
-        #F4B400 50%,      /* Amarillo Google */
-        #F4B400 75%,      /* Amarillo Google */
-        #0F9D58 75%       /* Verde Google */
-    );
-    color: white;
-}
-
 .hr-custom {
     display: inline-block; /* Para que se alineen horizontalmente */
     width: 40%; /* Ajusta el ancho de las líneas */

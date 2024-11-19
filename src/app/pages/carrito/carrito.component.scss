@@ -1,0 +1,41 @@
+// .table {
+//     margin-top: 20px;
+// }
+
+// img {
+//     max-height: 100px;
+//     object-fit: cover;
+// }
+
+.container {
+    max-width: 1200px;
+    margin: auto;
+}
+
+.card {
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.table-responsive {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+h3 {
+    text-align: center;
+    font-weight: bold;
+}
+
+.btn {
+    font-size: 0.9rem;
+}
+
+.form-check-input {
+    margin-right: 10px;
+}

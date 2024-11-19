@@ -1,0 +1,57 @@
+h1{
+    color: 333;
+    font-weight: bold;
+}
+
+h4{
+    text-align: center;
+    margin-top: 2rem;
+    font-size: 32px;
+}
+
+.favoritos{
+    color: gray;
+    transition: .5s ease;
+    font-size: 20px;
+}
+
+.favoritos:hover{
+    font-size: 38px;
+    color: #db4c5f;
+    transform: rotate(15deg);
+}
+
+.precio{
+    color: green;
+    font-weight: bold;
+    font-size: 25px;
+}
+
+img{
+    cursor: zoom-in;
+}
+
+.image-container {
+    width: 100%;
+    height: 180px; /* Fija el tamaño del contenedor */
+    overflow: hidden; /* Oculta cualquier desbordamiento para mantener la proporción */
+    border-radius: 5%; /* Mantiene el borde redondeado */
+}
+
+.producto-imagen {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* La imagen ocupará todo el contenedor, recortando si es necesario */
+    border-radius: 5%; /* Mantiene el borde redondeado */
+}
+
+.bg-productos{
+    background-color: #f5d2c4;
+}
+
+.btn-custom{
+    width: 50%;
+    background-color: green;
+    color: white;
+}
+

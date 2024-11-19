@@ -1,0 +1,83 @@
+<h2 mat-dialog-title *ngIf="!esEdicion" class="bg-success fw-blold text-white">Crear producto</h2>
+<h2 mat-dialog-title *ngIf="esEdicion"  class="bg-warning fw-blold text-white">Editar producto</h2>
+<mat-dialog-content>
+  <form [formGroup]="productoForm" >
+    <!-- Destacado -->
+    <section class="example-section">
+      <mat-checkbox class="example-margin" formControlName="destacado" name="destacado"> Producto destacado</mat-checkbox>
+    </section>
+
+    <!-- Nombre -->
+    <mat-form-field appearance="outline" class="w-100 my-2">
+      <mat-label>Nombre del producto</mat-label>
+      <input matInput formControlName="nombre" placeholder="Ej: Aros" />
+      <mat-error
+        *ngIf="productoForm.get('nombre')?.invalid && productoForm.get('nombre')?.touched"
+      >
+        El nombre es obligatorio.
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Imagen (Cargar archivo sin matInput) -->
+    <div class="form-group my-2">
+      <label for="imagen">Imagen</label>
+      <input
+        id="imagen"
+        type="file"
+        (change)="onFileSelect($event)"
+        class="form-control"
+      />
+    </div>
+
+    <!-- Descripción -->
+    <mat-form-field appearance="outline" class="w-100 my-2">
+      <mat-label>Descripción</mat-label>
+      <textarea matInput formControlName="descripcion" rows="3"></textarea>
+    </mat-form-field>
+
+    <!-- Cantidad -->
+    <mat-form-field appearance="outline" class="w-100 my-2">
+      <mat-label>Cantidad</mat-label>
+      <input
+        matInput
+        type="number"
+        formControlName="cantidad"
+        placeholder="Ej: 10"
+      />
+      <mat-error
+        *ngIf="productoForm.get('cantidad')?.invalid && productoForm.get('cantidad')?.touched"
+      >
+        La cantidad debe ser mayor a 0.
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Precio -->
+    <mat-form-field appearance="outline" class="w-100 my-2">
+      <mat-label>Precio</mat-label>
+      <input
+        matInput
+        type="number"
+        formControlName="precio"
+        placeholder="Ej: 25000"
+      />
+      <mat-error
+        *ngIf="productoForm.get('precio')?.invalid && productoForm.get('precio')?.touched"
+      >
+        El precio debe ser mayor a 0.
+      </mat-error>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancelar</button>
+  <button
+    mat-raised-button
+    color="primary"
+    [disabled]="productoForm.invalid"
+    type="submit"
+    (click)="guardarProducto()"
+  >
+    Guardar
+  </button>
+</mat-dialog-actions>

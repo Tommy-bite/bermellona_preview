@@ -13,7 +13,6 @@ section img {
 }
 
 section img:hover {
-    cursor: crosshair;
     width: 300px;
     opacity: 1;
     filter: contrast(120%);
@@ -24,9 +23,7 @@ section img:hover {
         display: none;
         /* Oculta todas las imágenes a partir de la cuarta */
     }
-
     section img:hover {
         width: 150px;
     }
-    
 }
