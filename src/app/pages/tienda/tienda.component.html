@@ -1,30 +1,24 @@
 <app-redes-sociales></app-redes-sociales>
-<app-header></app-header>
+<app-header [isFixedTop]="true"></app-header>
 
-<div class="container">
+<div class="container py-3">
   <div class="row py-5">
-    <div class="col-4">
+    <div class="col-2">
       <div class="card p-3">
         <h5 class="card-title">Filtros</h5>
+        <!-- Campo de búsqueda -->
         <div class="mb-3">
-          <label for="color" class="form-label">Color</label>
-          <select id="color" class="form-select" >
-            <option value="">Todos</option>
-            <option value="rojo">Rojo</option>
-            <option value="azul">Azul</option>
-            <option value="verde">Verde</option>
-            <option value="negro">Negro</option>
-          </select>
+          <label for="buscar" class="form-label">Buscar</label>
+          <input
+            type="text"
+            id="buscar"
+            class="form-control"
+            placeholder="Buscar productos..."
+            [(ngModel)]="terminoBusqueda"
+            (input)="filtrarProductos()"
+          />
         </div>
-        <div class="mb-3">
-          <label for="tamaño" class="form-label">Tamaño</label>
-          <select id="tamaño" class="form-select" >
-            <option value="">Todos</option>
-            <option value="pequeño">Pequeño</option>
-            <option value="mediano">Mediano</option>
-            <option value="grande">Grande</option>
-          </select>
-        </div>
+        <!-- Rango de precios -->
         <div class="mb-3">
           <label for="precio" class="form-label">Precio</label>
           <input
@@ -34,68 +28,121 @@
             min="0"
             max="50000"
             step="500"
+            [(ngModel)]="precioSeleccionado"
+            (input)="filtrarProductos()"
           />
-          <p class="text-muted">Hasta: {{ precioSeleccionado | monedaChilena }}</p>
+          <p class="text-muted">
+            Hasta: {{ precioSeleccionado | monedaChilena }}
+          </p>
         </div>
+        <!-- Selector de orden -->
         <div class="mb-3">
           <label for="ordenar" class="form-label">Ordenar por</label>
-          <select id="ordenar" class="form-select">
+          <select
+            id="ordenar"
+            class="form-select"
+            [(ngModel)]="ordenSeleccionado"
+            (change)="filtrarProductos()"
+          >
             <option value="">Por defecto</option>
             <option value="precioAsc">Precio: Menor a mayor</option>
             <option value="precioDesc">Precio: Mayor a menor</option>
-            <option value="masVendido">Más vendidos</option>
           </select>
         </div>
       </div>
     </div>
-    <div class="col-8">
+    <div class="col-10">
       <div class="row">
         <!-- Iteración de productos -->
         <div
-          *ngFor="let producto of productos"
-          class="col-12 col-md-6 col-lg-4 producto text-center"
+          *ngFor="let producto of productosPaginados"
+          class="col-12 col-md-6 col-lg-3 my-3 producto text-center d-flex"
         >
-          <div class="my-4">
-            <div
-              class="image-container position-relative d-flex justify-content-center align-items-center"
-            >
-              <img
-                [src]="producto.imagen"
-                [alt]="producto.nombre"
-                class="producto-imagen"
-              />
-              <i
-                class="bi bi-heart-fill favoritos position-absolute"
-                data-bs-toggle="tooltip"
-                data-bs-placement="bottom"
-                data-bs-title="Agregar a favoritos"
-                style="top: 10px; left: 10px; cursor: pointer"
+          <div class="producto-card d-flex flex-column justify-content-between">
+            <div>
+              <div
+                class="image-container position-relative d-flex justify-content-center align-items-center"
               >
-              </i>
+                <img
+                  [src]="producto.imagen"
+                  [alt]="producto.nombre"
+                  class="producto-imagen"
+                />
+              </div>
+              <h6 class="text-center mt-2 font-weight-bold">
+                {{ producto.nombre }}
+              </h6>
+              <p class="text-muted">{{ producto.descripcion }}</p>
+              <h6 class="precio">{{ producto.precio | monedaChilena }}</h6>
+              <p class="text-muted stock-text">
+                Stock disponible: {{ producto.cantidad }}
+              </p>
             </div>
-            <h6 class="text-center mt-2 font-weight-bold">
-              {{ producto.nombre }}
-            </h6>
-            <p class="text-muted">{{ producto.descripcion }}</p>
-            <h6 class="precio">{{ producto.precio | monedaChilena }}</h6>
-            <div class="d-flex justify-content-center gap-5 align-items-center">
-              <button
+            <div>
+              <div
                 *ngIf="!enCarrito(producto)"
-                class="btn btn-success"
-                (click)="agregarAlCarrito(producto)"
+                class="cantidad-seleccion mb-2 d-flex justify-content-center gap-2"
               >
-                <i class="bi bi-bag-plus-fill"></i> Añadir al carrito
-              </button>
-              <button
-                *ngIf="enCarrito(producto)"
-                class="btn btn-danger"
-                (click)="quitarDelCarrito(producto)"
-              >
-                <i class="bi bi-bag-dash-fill"></i> Quitar del carrito
-              </button>
+                <input
+                  id="cantidad-{{ producto.id }}"
+                  type="number"
+                  min="1"
+                  max="{{ producto.cantidad }}"
+                  class="form-control cantidad-input"
+                  style="width: 35%"
+                  [(ngModel)]="producto.cantidadSeleccionada"
+                />
+              </div>
+              <div class="d-flex justify-content-center gap-5 align-items-center">
+                <button
+                  *ngIf="!enCarrito(producto)"
+                  class="btn btn-success"
+                  [disabled]="producto.cantidadSeleccionada > producto.cantidad"
+                  (click)="agregarAlCarrito(producto)"
+                >
+                  <i class="bi bi-bag-plus-fill"></i> Añadir al carrito
+                </button>
+                <button
+                  *ngIf="enCarrito(producto)"
+                  class="btn btn-danger"
+                  (click)="quitarDelCarrito(producto)"
+                >
+                  <i class="bi bi-bag-dash-fill"></i> Quitar del carrito
+                </button>
+              </div>
             </div>
           </div>
         </div>
+      </div>
+
+      <!-- Paginador -->
+      <div class="d-flex justify-content-center mt-4">
+        <nav>
+          <ul class="pagination">
+            <li
+              class="page-item"
+              [class.disabled]="paginaActual === 1"
+              (click)="cambiarPagina(paginaActual - 1)"
+            >
+              <a class="page-link" href="javascript:void(0)">Anterior</a>
+            </li>
+            <li
+              class="page-item"
+              *ngFor="let pagina of [].constructor(totalPaginas); let i = index"
+              [class.active]="paginaActual === i + 1"
+              (click)="cambiarPagina(i + 1)"
+            >
+              <a class="page-link" href="javascript:void(0)">{{ i + 1 }}</a>
+            </li>
+            <li
+              class="page-item"
+              [class.disabled]="paginaActual === totalPaginas"
+              (click)="cambiarPagina(paginaActual + 1)"
+            >
+              <a class="page-link" href="javascript:void(0)">Siguiente</a>
+            </li>
+          </ul>
+        </nav>
       </div>
     </div>
   </div>

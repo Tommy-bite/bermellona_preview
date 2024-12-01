@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
+import { OAuthService } from 'angular-oauth2-oidc';
 
 @Injectable({
   providedIn: 'root'
@@ -12,11 +13,12 @@ export class LoginService {
   private isAuthenticatedSubject = new BehaviorSubject<boolean>(this.hasValidToken());
   private userProfileSubject = new BehaviorSubject<any>(this.getUserProfileFromStorage());
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private oAuthService: OAuthService) { }
+
 
   // Método para verificar si hay un token válido en localStorage
   private hasValidToken(): boolean {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('access');
     return !!token; // Aquí podrías implementar más lógica para verificar la validez del token
   }
 
@@ -32,17 +34,36 @@ export class LoginService {
 
   // Método para iniciar sesión
   iniciarSesion(data: any): Observable<any> {
+    console.log('Iniciando sesión...');
     return this.http.post(`${environment.apiUrl}/login/`, data).pipe(
       tap((response: any) => {
-        if (response.access) {
-          localStorage.setItem('token', response.access);
-          localStorage.setItem('refresh', response.refresh);
-          this.isAuthenticatedSubject.next(true); // Notifica que el usuario está autenticado
-          this.fetchUserProfile(); // Obtiene y guarda el perfil de usuario
+        if (response.tokens && response.username) {
+          // Guardar los tokens en localStorage
+          localStorage.setItem('access', response.tokens.access);
+          localStorage.setItem('refresh', response.tokens.refresh);
+  
+          // Guardar el perfil del usuario en localStorage
+          const userProfile = {
+            username: response.username,
+            email: response.email,
+            first_name: response.first_name,
+            last_name: response.last_name,
+            is_admin: response.is_admin
+          };
+          localStorage.setItem('userProfile', JSON.stringify(userProfile));
+  
+          // Notificar el estado de autenticación
+          this.isAuthenticatedSubject.next(true);
+          this.userProfileSubject.next(userProfile);
+  
+          console.log('Perfil guardado en localStorage:', userProfile);
+        } else {
+          console.error('La respuesta no contiene los datos esperados.');
         }
       })
     );
   }
+  
 
   // Método para registrar un nuevo usuario
   registrarUsuario(data: any): Observable<any> {
@@ -51,7 +72,7 @@ export class LoginService {
 
   // Método para cerrar sesión
   logout(): void {
-    localStorage.removeItem('token');
+    localStorage.removeItem('access');
     localStorage.removeItem('refresh');
     localStorage.removeItem('userProfile');
     this.isAuthenticatedSubject.next(false); // Notifica que el usuario ya no está autenticado
@@ -60,7 +81,7 @@ export class LoginService {
 
   // Método para obtener el token de acceso
   getAccessToken(): string | null {
-    return localStorage.getItem('token');
+    return localStorage.getItem('access');
   }
 
   // Método para obtener el token de actualización
@@ -86,13 +107,43 @@ export class LoginService {
   }
 
   // Método para recuperar la password del usuario
-  recoveryPasswordUser(email : string) {
+  recoveryPasswordUser(email: string) {
     return this.http.post(`${environment.apiUrl}/password-reset/`, email);
   }
 
-  NewPasswordUser(new_password : string, token : string, uidb64 : string) {
+  NewPasswordUser(new_password: string, token: string, uidb64: string) {
     return this.http.post(`${environment.apiUrl}/password-reset-confirm/`, { new_password, token, uidb64 });
   }
+
+  checkOrRegisterUser(email: string, firstName: string, lastName: string): Observable<any> {
+    const payload = { email, first_name: firstName, last_name: lastName };
+    return this.http.post(`${environment.apiUrl}/auth/google/`, payload).pipe(
+      tap((response: any) => {
+        if (response.tokens && response.username) {
+          // Guardar tokens
+          localStorage.setItem('access', response.tokens.access);
+          localStorage.setItem('refresh', response.tokens.refresh);
+  
+          // Guardar perfil del usuario
+          const userProfile = {
+            username: response.username,
+            email: response.email,
+            first_name: response.first_name,
+            last_name: response.last_name,
+            is_admin: response.is_admin
+          };
+          localStorage.setItem('userProfile', JSON.stringify(userProfile));
+  
+          // Notificar cambios
+          this.isAuthenticatedSubject.next(true);
+          this.userProfileSubject.next(userProfile);
+  
+          console.log('Perfil guardado tras autenticación con Google:', userProfile);
+        }
+      })
+    );
+  }
+  
 
 
 }

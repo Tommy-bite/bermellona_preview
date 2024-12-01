@@ -9,7 +9,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSort, MatSortModule } from '@angular/material/sort';
-import { Producto } from '../../interfaces/producto';
+import { Producto } from '../../interfaces/bermellona';
 import { NgIf, UpperCasePipe } from '@angular/common';
 import { MonedaChilenaPipe } from '../../pipes/moneda-chilena.pipe';
 import { AdministracionService } from '../../services/administracion.service';
@@ -26,6 +26,8 @@ import {
 import { LoadingSpinnerComponent } from '../../components/loading-spinner/loading-spinner.component';
 import { NotificacionesService } from '../../services/notificaciones.service';
 import Notiflix from 'notiflix';
+import { ClientesComponent } from './clientes/clientes.component';
+import { SoporteComponent } from './soporte/soporte.component';
 
 
 @Component({
@@ -45,7 +47,9 @@ import Notiflix from 'notiflix';
     MatSortModule,
     UpperCasePipe,
     MonedaChilenaPipe,
-    LoadingSpinnerComponent
+    LoadingSpinnerComponent,
+    ClientesComponent,
+    SoporteComponent
   ],
   templateUrl: './administracion.component.html',
   styleUrl: './administracion.component.scss'

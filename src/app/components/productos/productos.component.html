@@ -2,51 +2,49 @@
   <div class="container">
     <h4 class="mb-4">Productos Destacados</h4>
     <div class="row my-3">
-      <div
-        *ngFor="let producto of productos"
-        class="col-12 col-md-6 col-lg-2 producto text-center"
-      >
-        <div
-          class="image-container position-relative d-flex justify-content-center align-items-center"
-        >
-          <img
-            [src]="producto.imagen"
-            [alt]="producto.nombre"
-            class="producto-imagen"
-          />
-          <i
-            class="bi bi-heart-fill favoritos position-absolute"
-            data-bs-toggle="tooltip"
-            data-bs-placement="bottom"
-            data-bs-title="Agregar a favoritos"
-            style="top: 10px; left: 10px; cursor: pointer"
-          >
-          </i>
+      <div *ngFor="let producto of productos" class="col-12 col-md-6 col-lg-3 my-2 producto text-center">
+        <div class="producto-card d-flex flex-column justify-content-between align-items-center">
+          <div class="image-container position-relative d-flex justify-content-center align-items-center">
+            <img [src]="producto.imagen" [alt]="producto.nombre"  class="producto-imagen" />
+          </div>
+          <h6 class="text-center mt-2 font-weight-bold">{{ producto.nombre }}</h6>
+          <p class="text-muted">{{ producto.descripcion }}</p>
+          <h6 class="precio">{{ producto.precio | monedaChilena }}</h6>
+
+          <!-- Texto del stock -->
+          <p class="text-muted stock-text">Stock disponible: {{ producto.cantidad }}</p>
+
+          <!-- Selector de cantidad -->
+          <div *ngIf="!enCarrito(producto)" class="cantidad-seleccion mb-2 d-flex justify-content-center gap-2">
+            <input
+              id="cantidad-{{ producto.id }}"
+              type="number"
+              min="1"
+              max="{{ producto.cantidad }}"
+              class="form-control cantidad-input"
+              style="width: 35%;"
+              [(ngModel)]="producto.cantidadSeleccionada"
+            />
+          </div>
+
+          <div class="d-flex justify-content-center gap-2 align-items-center">
+            <button
+              *ngIf="!enCarrito(producto)"
+              class="btn btn-success"
+              [disabled]="producto.cantidadSeleccionada > producto.cantidad"
+              (click)="agregarAlCarrito(producto)"
+            >
+              <i class="bi bi-bag-plus-fill"></i> Añadir al carrito
+            </button>
+            <button
+              *ngIf="enCarrito(producto)"
+              class="btn btn-danger"
+              (click)="quitarDelCarrito(producto)"
+            >
+              <i class="bi bi-bag-dash-fill"></i> Quitar del carrito
+            </button>
+          </div>
         </div>
-        <h6 class="text-center mt-2 font-weight-bold">{{ producto.nombre }}</h6>
-        <p class="text-muted">{{ producto.descripcion }}</p>
-        <h6 class="precio">{{ producto.precio | monedaChilena}}</h6>
-        <div class="d-flex justify-content-center gap-5 align-items-center">
-          <button
-            *ngIf="!enCarrito(producto)"
-            class="btn btn-success"
-            (click)="agregarAlCarrito(producto)"
-          >
-            <i class="bi bi-bag-plus-fill"></i> Añadir al carrito
-          </button>
-          <button
-            *ngIf="enCarrito(producto)"
-            class="btn btn-danger"
-            (click)="quitarDelCarrito(producto)"
-          >
-            <i class="bi bi-bag-dash-fill"></i> Quitar del carrito
-          </button>
-        </div>
-      </div>
-      <div class="text-center mt-5">
-        <button class="btn btn-custom border" [routerLink]="['/tienda']" >
-          TODOS LOS PRODUCTOS
-        </button>
       </div>
     </div>
   </div>

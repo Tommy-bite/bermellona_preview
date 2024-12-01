@@ -9,6 +9,8 @@ import { LoadingSpinnerComponent } from '../../components/loading-spinner/loadin
 import { HeaderComponent } from '../../components/header/header.component';
 import { RedesSocialesComponent } from '../../components/redes-sociales/redes-sociales.component';
 import { FooterComponent } from '../../components/footer/footer.component';
+import { LoginGoogleService } from '../../services/loginGoogle.service';
+import { first } from 'rxjs';
 
 @Component({
   selector: 'app-autenticacion',
@@ -31,7 +33,7 @@ export class AutenticacionComponent {
 
   token : string | null;
 
-  constructor(private fb: FormBuilder, private loginService: LoginService, private route: ActivatedRoute, private router : Router) {
+  constructor(private fb: FormBuilder, private loginService: LoginService, private route: ActivatedRoute, private router : Router, private loginGoogleService : LoginGoogleService) {
     this.formLogin = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
@@ -66,22 +68,41 @@ export class AutenticacionComponent {
 
   /* MÉTODOS */
   iniciarSesion() {
+    this.isLoading = true;
     if (this.formLogin.valid) {
-      this.isLoading = true
       this.loginService.iniciarSesion(this.formLogin.value).subscribe({
         next: (resp: any) => {
+          console.log(resp);
           this.isLoading = false;
           this.mostrarMensaje = false;
           this.router.navigateByUrl('/');
         },
         error: (error: any) => {
-          this.mensaje = error.error.non_field_errors[0];
           this.isLoading = false;
+  
+          // Manejo del error
+          if (error.error && error.error.non_field_errors) {
+            this.mensaje = error.error.non_field_errors[0];
+          } else if (error.status === 0) {
+            // Error genérico para cuando no hay respuesta del servidor
+            this.mensaje = 'No se pudo conectar con el servidor. Por favor, intenta nuevamente más tarde.';
+          } else {
+            // Otros errores
+            this.mensaje = 'Ocurrió un error inesperado. Por favor, verifica tu conexión.';
+          }
+  
           this.mostrarMensaje = true;
         }
-      })
+      });
+    } else {
+      this.isLoading = false;
     }
   }
+
+  iniciarSesionConGoogle(){
+    this.loginGoogleService.login();
+  }
+  
 
   registrar() {
     if (this.formRegistro.valid) {

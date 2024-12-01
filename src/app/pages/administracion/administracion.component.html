@@ -5,89 +5,54 @@
   <!-- Tabs -->
   <ul class="nav nav-tabs justify-content-end" id="myTab" role="tablist">
     <li class="nav-item" role="presentation">
-      <button
-        class="nav-link active"
-        id="productos-tab"
-        data-bs-toggle="tab"
-        data-bs-target="#productos"
-        type="button"
-        role="tab"
-        aria-controls="productos"
-        aria-selected="true"
-      >
+      <button class="nav-link active" id="productos-tab" data-bs-toggle="tab" data-bs-target="#productos" type="button"
+        role="tab" aria-controls="productos" aria-selected="true">
         <i class="bi bi-box-seam"></i> Productos
       </button>
     </li>
     <li class="nav-item" role="presentation">
-      <button
-        class="nav-link"
-        id="ventas-tab"
-        data-bs-toggle="tab"
-        data-bs-target="#ventas"
-        type="button"
-        role="tab"
-        aria-controls="ventas"
-        aria-selected="false"
-      >
+      <button class="nav-link" id="ventas-tab" data-bs-toggle="tab" data-bs-target="#ventas" type="button" role="tab"
+        aria-controls="ventas" aria-selected="false">
         <i class="bi bi-cart4"></i> Ventas
       </button>
     </li>
     <li class="nav-item" role="presentation">
-      <button
-        class="nav-link"
-        id="usuarios-tab"
-        data-bs-toggle="tab"
-        data-bs-target="#usuarios"
-        type="button"
-        role="tab"
-        aria-controls="usuarios"
-        aria-selected="false"
-      >
+      <button class="nav-link" id="usuarios-tab" data-bs-toggle="tab" data-bs-target="#usuarios" type="button"
+        role="tab" aria-controls="usuarios" aria-selected="false">
         <i class="bi bi-people"></i> Clientes
       </button>
     </li>
     <li class="nav-item" role="presentation">
-      <button
-        class="nav-link"
-        id="anuncios-tab"
-        data-bs-toggle="tab"
-        data-bs-target="#anuncios"
-        type="button"
-        role="tab"
-        aria-controls="anuncios"
-        aria-selected="false"
-      >
+      <button class="nav-link" id="anuncios-tab" data-bs-toggle="tab" data-bs-target="#anuncios" type="button"
+        role="tab" aria-controls="anuncios" aria-selected="false">
         <i class="bi bi-megaphone"></i> Anuncios
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="soporte-tab" data-bs-toggle="tab" data-bs-target="#soporte" type="button" role="tab"
+        aria-controls="soporte" aria-selected="false">
+        <i class="bi bi-envelope-arrow-up-fill"></i> Soporte
       </button>
     </li>
   </ul>
 
   <!-- Tab Content -->
   <div class="tab-content" id="myTabContent">
-    <div
-      class="tab-pane fade show active"
-      id="productos"
-      role="tabpanel"
-      aria-labelledby="productos-tab"
-    >
+    <div class="tab-pane fade show active" id="productos" role="tabpanel" aria-labelledby="productos-tab">
       <div class="container my-5">
         <div class="row  justify-content-between align-items-center my-5">
           <!-- Buscador -->
-          <div class="col-md-6 d-flex align-items-center">
+          <div class="col-md-6 col-12  d-flex align-items-center">
             <div class="input-group" style="width: 50%">
               <span class="input-group-text bg-success text-white">
                 <i class="bi bi-search"></i>
               </span>
-              <input
-                type="search"
-                class="form-control"
-                placeholder="Buscar productos"
-              />
+              <input type="search" class="form-control" placeholder="Buscar productos" />
             </div>
           </div>
 
           <!-- Botón Crear Producto -->
-          <div class="col-md-6 text-end">
+          <div class="col-md-6  col-12 text-end">
             <button class="btn btn-success d-flex align-items-center" (click)="crearProducto()">
               <i class="bi bi-plus-circle me-2"></i>
               Crear Producto
@@ -95,135 +60,92 @@
           </div>
         </div>
 
-        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-          <ng-container matColumnDef="nombre">
-            <th
-              mat-header-cell
-              *matHeaderCellDef
-              class="bg-dark text-white fw-bold"
-            >
-              Nombre
-            </th>
-            <td mat-cell *matCellDef="let element">{{ element.nombre | uppercase }}</td>
-          </ng-container>
+        <div class="table-responsive">
+          <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+            <ng-container matColumnDef="nombre">
+              <th mat-header-cell *matHeaderCellDef class="bg-dark text-white fw-bold">
+                Nombre
+              </th>
+              <td mat-cell *matCellDef="let element">{{ element.nombre | uppercase }}</td>
+            </ng-container>
 
-          <ng-container matColumnDef="imagen">
-            <th
-              mat-header-cell
-              *matHeaderCellDef
-              class="bg-dark text-white fw-bold"
-            >
-              Imagen
-            </th>
-            <td mat-cell *matCellDef="let element">
-                <img  width="120" height="120" src="{{element.imagen}}" alt="">
-            </td>
-          </ng-container>
+            <ng-container matColumnDef="imagen">
+              <th mat-header-cell *matHeaderCellDef class="bg-dark text-white fw-bold">
+                Imagen
+              </th>
+              <td mat-cell *matCellDef="let element">
+                <img width="120" height="120" src="{{element.imagen}}" alt="">
+              </td>
+            </ng-container>
 
-          <ng-container matColumnDef="descripcion">
-            <th
-              mat-header-cell
-              *matHeaderCellDef
-              class="bg-dark text-white fw-bold"
-            >
-              Descripcion
-            </th>
-            <td mat-cell *matCellDef="let element">{{ element.descripcion | uppercase }}</td>
-          </ng-container>
+            <ng-container matColumnDef="descripcion">
+              <th mat-header-cell *matHeaderCellDef class="bg-dark text-white fw-bold">
+                Descripcion
+              </th>
+              <td mat-cell *matCellDef="let element">{{ element.descripcion | uppercase }}</td>
+            </ng-container>
 
-          <ng-container matColumnDef="destacado">
-            <th
-              mat-header-cell
-              *matHeaderCellDef
-              class="bg-dark text-white fw-bold"
-            >
-              Destacado
-            </th>
-            <td mat-cell *matCellDef="let element">{{ element.destacado ? 'Si' : 'No'  }}</td>
-          </ng-container>
+            <ng-container matColumnDef="destacado">
+              <th mat-header-cell *matHeaderCellDef class="bg-dark text-white fw-bold">
+                Destacado
+              </th>
+              <td mat-cell *matCellDef="let element">{{ element.destacado ? 'Si' : 'No' }}</td>
+            </ng-container>
 
 
-          <ng-container matColumnDef="cantidad">
-            <th
-              mat-header-cell
-              *matHeaderCellDef
-              class="bg-dark text-white fw-bold"
-            >
-              Cantidad
-            </th>
-            <td mat-cell *matCellDef="let element">{{ element.cantidad  }}</td>
-          </ng-container>
+            <ng-container matColumnDef="cantidad">
+              <th mat-header-cell *matHeaderCellDef class="bg-dark text-white fw-bold">
+                Cantidad
+              </th>
+              <td mat-cell *matCellDef="let element">{{ element.cantidad }}</td>
+            </ng-container>
 
-          <ng-container matColumnDef="precio">
-            <th
-              mat-header-cell
-              *matHeaderCellDef
-              class="bg-dark text-white fw-bold"
-            >
-              Precio
-            </th>
-            <td mat-cell *matCellDef="let element">{{ element.precio | monedaChilena }}</td>
-          </ng-container>
+            <ng-container matColumnDef="precio">
+              <th mat-header-cell *matHeaderCellDef class="bg-dark text-white fw-bold">
+                Precio
+              </th>
+              <td mat-cell *matCellDef="let element">{{ element.precio | monedaChilena }}</td>
+            </ng-container>
 
-          <ng-container matColumnDef="acciones">
-            <th
-              mat-header-cell
-              *matHeaderCellDef
-              class="bg-dark text-white fw-bold"
-            >
-              Acciones
-            </th>
-            <td mat-cell *matCellDef="let element">
-              <button
-                (click)="editarProducto(element)"
-                class="btn btn-warning mx-2"
-              >
-                <i class="bi bi-pencil-fill"></i>
-              </button>
-              <a
-                (click)="eliminarProducto(element.id)"
-                class="btn btn-danger mx-2"
-              >
-                <i class="bi bi-trash-fill"></i>
-              </a>
-            </td>
-          </ng-container>
+            <ng-container matColumnDef="acciones">
+              <th mat-header-cell *matHeaderCellDef class="bg-dark text-white fw-bold">
+                Acciones
+              </th>
+              <td mat-cell *matCellDef="let element">
+                <button (click)="editarProducto(element)" class="btn btn-warning mx-2">
+                  <i class="bi bi-pencil-fill"></i>
+                </button>
+                <a (click)="eliminarProducto(element.id)" class="btn btn-danger mx-2">
+                  <i class="bi bi-trash-fill"></i>
+                </a>
+              </td>
+            </ng-container>
 
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-        </table>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          </table>
+        </div>
 
         <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
       </div>
     </div>
     <!-- PRODUCTOS -->
-    <div
-      class="tab-pane fade"
-      id="ventas"
-      role="tabpanel"
-      aria-labelledby="ventas-tab"
-    >
+    <div class="tab-pane fade" id="ventas" role="tabpanel" aria-labelledby="ventas-tab">
       <p>Contenido de la pestaña Ventas.</p>
     </div>
     <!-- VENTAS -->
-    <div
-      class="tab-pane fade"
-      id="usuarios"
-      role="tabpanel"
-      aria-labelledby="usuarios-tab"
-    >
-      <p>Contenido de la pestaña Usuarios.</p>
+    <div class="tab-pane fade" id="usuarios" role="tabpanel" aria-labelledby="usuarios-tab">
+      <app-clientes></app-clientes>
     </div>
     <!-- CLIENTES -->
-    <div
-      class="tab-pane fade"
-      id="anuncios"
-      role="tabpanel"
-      aria-labelledby="anuncios-tab"
-    >
+    <div class="tab-pane fade" id="anuncios" role="tabpanel" aria-labelledby="anuncios-tab">
       <p>Contenido de la pestaña Anuncios.</p>
     </div>
     <!-- ANUNCIOS -->
+    <div class="tab-pane fade" id="soporte" role="tabpanel" aria-labelledby="soporte-tab">
+      <app-soporte></app-soporte>
+    </div>
+    <!-- SOPORTE -->
   </div>
 </div>
 <app-loading-spinner [isLoading]="isLoading"></app-loading-spinner>

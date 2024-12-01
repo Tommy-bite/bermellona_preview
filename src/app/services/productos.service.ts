@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Producto } from '../interfaces/producto';
+import { Producto } from '../interfaces/bermellona';
 import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';

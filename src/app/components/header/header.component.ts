@@ -5,7 +5,8 @@ import * as bootstrap from 'bootstrap';
 import { Observable } from 'rxjs';
 import { LoginService } from '../../services/login.service';
 import { CarritoService } from '../../services/carrito.service';
-import { Producto } from '../../interfaces/producto';
+import { Producto } from '../../interfaces/bermellona';
+import { LoginGoogleService } from '../../services/loginGoogle.service';
 
 @Component({
   selector: 'app-header',
@@ -16,21 +17,30 @@ import { Producto } from '../../interfaces/producto';
 })
 export class HeaderComponent implements OnInit  {
 
-  @Input() isFixedBottom: boolean = false
+  @Input() isFixedTop: boolean = false
   usuarioLogueado$ : Observable<boolean>;
   perfilUsuario$ : Observable<any>;  
   tooltips: bootstrap.Tooltip[] = [];
   carrito: Producto[] = [];
+  es_admin : boolean = false;
 
-  constructor(private authService: LoginService, private carritoService: CarritoService, private router : Router) {
+  constructor(private authService: LoginService, private loginGoogleService : LoginGoogleService , private loginService : LoginService ,private carritoService: CarritoService, private router : Router) {
     this.usuarioLogueado$ = this.authService.isAuthenticated();
     this.perfilUsuario$ = this.authService.getUserProfile();
+    this.perfilUsuario$.subscribe({
+      next : (resp : any) => {
+        this.es_admin = resp?.is_admin;
+        console.log(this.es_admin);
+      }
+    })
+
   }
 
   ngOnInit(): void {
     this.carritoService.carrito$.subscribe((productos) => {
       this.carrito = productos;
     });
+   
   }
 
   ngAfterViewInit(): void {
@@ -62,6 +72,7 @@ export class HeaderComponent implements OnInit  {
 
   cerrarSesion(){
     this.authService.logout();
+    this.loginGoogleService.logout();
     this.router.navigateByUrl('/');
   }
 

@@ -1,0 +1,112 @@
+<div class="container my-5">
+  <div class="row justify-content-between align-items-center my-5">
+    <!-- Buscador -->
+    <div class="col-md-6 d-flex align-items-center">
+      <div class="input-group" style="width: 50%">
+        <span class="input-group-text bg-success text-white">
+          <i class="bi bi-search"></i>
+        </span>
+        <input
+          type="search"
+          class="form-control"
+          placeholder="Buscar requerimiento"
+        />
+      </div>
+    </div>
+  </div>
+
+  <div class="table-responsive">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+      <ng-container matColumnDef="nombre">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          class="bg-dark text-white fw-bold"
+        >
+          Nombres
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.nombre | uppercase }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="email">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          class="bg-dark text-white fw-bold"
+        >
+          Correo Electronico
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.correo_electronico | uppercase }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="motivo">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          class="bg-dark text-white fw-bold"
+        >
+          Motivo
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.motivo | uppercase }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="mensaje">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          class="bg-dark text-white fw-bold"
+        >
+          Mensaje
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.mensaje | uppercase }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="estado">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          class="bg-dark text-white fw-bold"
+        >
+          Estado
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.estado | uppercase }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="acciones">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          class="bg-dark text-white fw-bold"
+        >
+          Acciones
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <button
+            title="Cambiar estado"
+            class="btn btn-warning mx-2"
+          >
+            <i class="bi bi-pen-fill"></i>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </div>
+
+  <mat-paginator
+    [pageSizeOptions]="[5, 10, 25, 100]"
+    aria-label="Select page of users"
+  ></mat-paginator>
+</div>

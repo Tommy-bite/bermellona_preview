@@ -1,4 +1,4 @@
-<div class="bg-dark " [ngClass]="{'sticky-bottom': isFixedBottom}">
+<div class="bg-dark " [ngClass]="{'fixed-top': isFixedTop}">
   <nav class="navbar navbar-expand-lg">
     <div class="container d-flex align-items-center justify-content-between">
       <a class="navbar-brand d-flex align-items-center fw-bold" href="/">
@@ -13,7 +13,7 @@
         <span class="titulo-2">ACCESORIOS</span>
       </a>
       <button
-        class="navbar-toggler"
+        class="navbar-toggler bg-white text-white"
         type="button"
         data-bs-toggle="collapse"
         data-bs-target="#navbarSupportedContent"
@@ -40,7 +40,7 @@
           />
         </div>
         <div
-          class="d-flex align-items-center justify-content-center gap-4 ms-auto"
+          class="d-flex align-items-center justify-content-center gap-5 ms-auto mt-5 mt-lg-0"
         >
           <div class="dropdown-center d-flex  ">
             <div class="fw-bold text-white" *ngIf="usuarioLogueado$ | async">
@@ -53,8 +53,8 @@
               data-bs-toggle="dropdown"
               aria-expanded="false"
             ></i>
-            <ul class="dropdown-menu bg-dark text-white" >
-              <li>
+            <ul class="dropdown-menu bg-dark text-white " >
+              <li *ngIf="es_admin">
                 <a class="dropdown-item" [routerLink]="['/admin']"  >
                   <i class="bi bi-speedometer2" style="font-size: 22px"></i>
                   Administración

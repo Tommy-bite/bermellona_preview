@@ -133,6 +133,7 @@ class="text-center fw-bold bg-danger text-white p-3 my-2"
                   type="button"
                   class="btn btn-success w-100 rounded-pill"
                   [disabled]="isLoading"
+                  (click)="iniciarSesionConGoogle()"
                 >
                   <i class="bi bi-google"></i>
                   Ingresa con Google

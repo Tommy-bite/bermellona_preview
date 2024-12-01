@@ -4,7 +4,7 @@ import { HeaderComponent } from '../../components/header/header.component';
 import { RedesSocialesComponent } from '../../components/redes-sociales/redes-sociales.component';
 import { AsyncPipe, CurrencyPipe, NgFor, NgIf } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { WebpayResponse } from '../../interfaces/producto';
+import { WebpayResponse } from '../../interfaces/bermellona';
 import { MonedaChilenaPipe } from '../../pipes/moneda-chilena.pipe';
 import { LoadingSpinnerComponent } from '../../components/loading-spinner/loading-spinner.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
