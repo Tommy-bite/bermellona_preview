@@ -44,6 +44,7 @@ export class LoginService {
   
           // Guardar el perfil del usuario en localStorage
           const userProfile = {
+            id : response.id,
             username: response.username,
             email: response.email,
             first_name: response.first_name,
@@ -126,6 +127,7 @@ export class LoginService {
   
           // Guardar perfil del usuario
           const userProfile = {
+            id : response.id,
             username: response.username,
             email: response.email,
             first_name: response.first_name,
@@ -143,7 +145,9 @@ export class LoginService {
       })
     );
   }
-  
 
+  obtenerPerfilUsuario(id : any){
+    return this.http.get(environment.apiUrl + `/user-profile/${id}/`)
+  }
 
 }

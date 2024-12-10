@@ -4,7 +4,6 @@ import { FooterComponent } from '../../components/footer/footer.component';
 import { RedesSocialesComponent } from '../../components/redes-sociales/redes-sociales.component';
 import { Producto } from '../../interfaces/bermellona';
 import { CarritoService } from '../../services/carrito.service';
-import { ProductosService } from '../../services/productos.service';
 import { MonedaChilenaPipe } from '../../pipes/moneda-chilena.pipe';
 import { NgFor, NgIf } from '@angular/common';
 import { AdministracionService } from '../../services/administracion.service';
@@ -25,7 +24,7 @@ export class TiendaComponent implements OnInit {
   precioSeleccionado: number = 50000; // Precio máximo por defecto
   ordenSeleccionado: string = ''; // Orden seleccionado
   paginaActual: number = 1;
-  productosPorPagina: number = 9; // Número de productos por página
+  productosPorPagina: number = 12; // Número de productos por página
 
   constructor(
     private carritoService: CarritoService,

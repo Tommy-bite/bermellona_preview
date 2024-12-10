@@ -9,6 +9,9 @@ import { CookieService } from 'ngx-cookie-service';
   providedIn: 'root'
 })
 export class CarritoService {
+  obtenerCarrito() {
+    throw new Error('Method not implemented.');
+  }
   private carrito: Producto[] = this.obtenerCarritoDeStorage();
   private carritoSubject = new BehaviorSubject<Producto[]>(this.carrito);
 
@@ -70,6 +73,18 @@ export class CarritoService {
     this.carritoSubject.next(this.carrito);
     this.guardarCarritoEnStorage(); // Guardar el carrito actualizado
   }
+
+  limpiarCarritoYFormulario(): void {
+    console.log('Limpieza de carrito y formulario ejecutada'); // Confirmar ejecución
+    this.carrito = [];
+    this.carritoSubject.next(this.carrito); // Notifica el cambio a todos los suscriptores
+  
+    localStorage.removeItem('carrito'); // Eliminar carrito del almacenamiento local
+    localStorage.removeItem('ventaFormulario'); // Eliminar formulario del almacenamiento local
+  
+    console.log('Carrito y formulario eliminados del localStorage');
+  }
+  
   
   
   productoEnCarrito(producto: Producto): boolean {
@@ -123,6 +138,15 @@ export class CarritoService {
       {}, // El cuerpo está vacío para esta solicitud
       { headers, withCredentials: true }
     );
+  }
+
+
+  guardarTransaccionWebpay(data : any){
+    return this.http.post(environment.apiUrl + '/transaccion-webpay/', data);
+  }
+
+  guardarVenta(venta : any){
+    return this.http.post(environment.apiUrl + '/guardar-venta/', venta);
   }
   
 }

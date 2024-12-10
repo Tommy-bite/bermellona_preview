@@ -28,6 +28,7 @@ import { NotificacionesService } from '../../services/notificaciones.service';
 import Notiflix from 'notiflix';
 import { ClientesComponent } from './clientes/clientes.component';
 import { SoporteComponent } from './soporte/soporte.component';
+import { RouterModule } from '@angular/router';
 
 
 @Component({
@@ -49,7 +50,8 @@ import { SoporteComponent } from './soporte/soporte.component';
     MonedaChilenaPipe,
     LoadingSpinnerComponent,
     ClientesComponent,
-    SoporteComponent
+    SoporteComponent,
+    RouterModule
   ],
   templateUrl: './administracion.component.html',
   styleUrl: './administracion.component.scss'

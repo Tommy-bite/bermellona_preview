@@ -32,7 +32,6 @@ export class HomeComponent implements OnInit {
       // Registrar o verificar el usuario en el backend
       this.loginService.checkOrRegisterUser(email, firstName, lastName).subscribe(response => {
         if (response) {
-          console.log(response);
         }
       });
     } else {

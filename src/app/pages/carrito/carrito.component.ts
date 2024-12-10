@@ -4,12 +4,13 @@ import { HeaderComponent } from '../../components/header/header.component';
 import { RedesSocialesComponent } from '../../components/redes-sociales/redes-sociales.component';
 import { AsyncPipe, CurrencyPipe, NgFor, NgIf } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { WebpayResponse } from '../../interfaces/bermellona';
+import { Usuario, WebpayResponse } from '../../interfaces/bermellona';
 import { MonedaChilenaPipe } from '../../pipes/moneda-chilena.pipe';
 import { LoadingSpinnerComponent } from '../../components/loading-spinner/loading-spinner.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { LoginService } from '../../services/login.service';
+import { nanoid } from 'nanoid';
 
 const regionesYcomunas = [
   {
@@ -35,15 +36,15 @@ const regionesYcomunas = [
         "comunas": ["La Serena", "Coquimbo", "Andacollo", "La Higuera", "Paiguano", "Vicuña", "Illapel", "Canela", "Los Vilos", "Salamanca", "Ovalle", "Combarbalá", "Monte Patria", "Punitaqui", "Río Hurtado"]
       },
       {
-        "region": "Valparaíso",
+        "region": "Valparaiso",
         "comunas": ["Valparaíso", "Casablanca", "Concón", "Juan Fernández", "Puchuncaví", "Quintero", "Viña del Mar", "Isla de Pascua", "Los Andes", "Calle Larga", "Rinconada", "San Esteban", "La Ligua", "Cabildo", "Papudo", "Petorca", "Zapallar", "Quillota", "Calera", "Hijuelas", "La Cruz", "Nogales", "San Antonio", "Algarrobo", "Cartagena", "El Quisco", "El Tabo", "Santo Domingo", "San Felipe", "Catemu", "Llaillay", "Panquehue", "Putaendo", "Santa María", "Quilpué", "Limache", "Olmué", "Villa Alemana"]
       },
       {
-        "region": "Región del Libertador Gral. Bernardo O’Higgins",
+        "region": "Libertador Gral. Bernardo O’Higgins",
         "comunas": ["Rancagua", "Codegua", "Coinco", "Coltauco", "Doñihue", "Graneros", "Las Cabras", "Machalí", "Malloa", "Mostazal", "Olivar", "Peumo", "Pichidegua", "Quinta de Tilcoco", "Rengo", "Requínoa", "San Vicente", "Pichilemu", "La Estrella", "Litueche", "Marchihue", "Navidad", "Paredones", "San Fernando", "Chépica", "Chimbarongo", "Lolol", "Nancagua", "Palmilla", "Peralillo", "Placilla", "Pumanque", "Santa Cruz"]
       },
       {
-        "region": "Región del Maule",
+        "region": "Maule",
         "comunas": ["Talca", "Constitución", "Curepto", "Empedrado", "Maule", "Pelarco", "Pencahue", "Río Claro", "San Clemente", "San Rafael", "Cauquenes", "Chanco", "Pelluhue", "Curicó", "Hualañé", "Licantén", "Molina", "Rauco", "Romeral", "Sagrada Familia", "Teno", "Vichuquén", "Linares", "Colbún", "Longaví", "Parral", "Retiro", "San Javier", "Villa Alegre", "Yerbas Buenas"]
       },
       {
@@ -51,31 +52,31 @@ const regionesYcomunas = [
         "comunas": ["Cobquecura", "Coelemu", "Ninhue", "Portezuelo", "Quirihue", "Ránquil", "Treguaco", "Bulnes", "Chillán Viejo", "Chillán", "El Carmen", "Pemuco", "Pinto", "Quillón", "San Ignacio", "Yungay", "Coihueco", "Ñiquén", "San Carlos", "San Fabián", "San Nicolás"]
       },
       {
-        "region": "Región del Biobío",
+        "region": "Biobío",
         "comunas": ["Concepción", "Coronel", "Chiguayante", "Florida", "Hualqui", "Lota", "Penco", "San Pedro de la Paz", "Santa Juana", "Talcahuano", "Tomé", "Hualpén", "Lebu", "Arauco", "Cañete", "Contulmo", "Curanilahue", "Los Álamos", "Tirúa", "Los Ángeles", "Antuco", "Cabrero", "Laja", "Mulchén", "Nacimiento", "Negrete", "Quilaco", "Quilleco", "San Rosendo", "Santa Bárbara", "Tucapel", "Yumbel", "Alto Biobío"]
       },
       {
-        "region": "Región de la Araucanía",
+        "region": "Araucanía",
         "comunas": ["Temuco", "Carahue", "Cunco", "Curarrehue", "Freire", "Galvarino", "Gorbea", "Lautaro", "Loncoche", "Melipeuco", "Nueva Imperial", "Padre las Casas", "Perquenco", "Pitrufquén", "Pucón", "Saavedra", "Teodoro Schmidt", "Toltén", "Vilcún", "Villarrica", "Cholchol", "Angol", "Collipulli", "Curacautín", "Ercilla", "Lonquimay", "Los Sauces", "Lumaco", "Purén", "Renaico", "Traiguén", "Victoria"]
       },
       {
-        "region": "Región de Los Ríos",
+        "region": "Ríos",
         "comunas": ["Valdivia", "Corral", "Lanco", "Los Lagos", "Máfil", "Mariquina", "Paillaco", "Panguipulli", "La Unión", "Futrono", "Lago Ranco", "Río Bueno"]
       },
       {
-        "region": "Región de Los Lagos",
+        "region": "Lagos",
         "comunas": ["Puerto Montt", "Calbuco", "Cochamó", "Fresia", "Frutillar", "Los Muermos", "Llanquihue", "Maullín", "Puerto Varas", "Castro", "Ancud", "Chonchi", "Curaco de Vélez", "Dalcahue", "Puqueldón", "Queilén", "Quellón", "Quemchi", "Quinchao", "Osorno", "Puerto Octay", "Purranque", "Puyehue", "Río Negro", "San Juan de la Costa", "San Pablo", "Chaitén", "Futaleufú", "Hualaihué", "Palena"]
       },
       {
-        "region": "Región Aisén del Gral. Carlos Ibáñez del Campo",
+        "region": "Aisén",
         "comunas": ["Coihaique", "Lago Verde", "Aisén", "Cisnes", "Guaitecas", "Cochrane", "O’Higgins", "Tortel", "Chile Chico", "Río Ibáñez"]
       },
       {
-        "region": "Región de Magallanes y de la Antártica Chilena",
+        "region": "Magallanes y de la Antártica Chilena",
         "comunas": ["Punta Arenas", "Laguna Blanca", "Río Verde", "San Gregorio", "Cabo de Hornos (Ex Navarino)", "Antártica", "Porvenir", "Primavera", "Timaukel", "Natales", "Torres del Paine"]
       },
       {
-        "region": "Región Metropolitana de Santiago",
+        "region": "Santiago",
         "comunas": ["Cerrillos", "Cerro Navia", "Conchalí", "El Bosque", "Estación Central", "Huechuraba", "Independencia", "La Cisterna", "La Florida", "La Granja", "La Pintana", "La Reina", "Las Condes", "Lo Barnechea", "Lo Espejo", "Lo Prado", "Macul", "Maipú", "Ñuñoa", "Pedro Aguirre Cerda", "Peñalolén", "Providencia", "Pudahuel", "Quilicura", "Quinta Normal", "Recoleta", "Renca", "Santiago", "San Joaquín", "San Miguel", "San Ramón", "Vitacura", "Puente Alto", "Pirque", "San José de Maipo", "Colina", "Lampa", "Tiltil", "San Bernardo", "Buin", "Calera de Tango", "Paine", "Melipilla", "Alhué", "Curacaví", "María Pinto", "San Pedro", "Talagante", "El Monte", "Isla de Maipo", "Padre Hurtado", "Peñaflor"]
       }
     ]
@@ -99,18 +100,75 @@ export class CarritoComponent implements OnInit {
   costoEnvio: number = 0;
   formaDePago: string = '';
   regiones = regionesYcomunas[0].regiones;
-  totalAPagar : number = 0;
+  totalAPagar: number = 0;
 
   usuarioLogueado$: Observable<boolean>;
   perfilUsuario$: Observable<any>;
 
-  constructor(private carritoService: CarritoService, private route: ActivatedRoute, private authService: LoginService, private router : Router) {
+  formularioVenta: FormGroup;
+  perfilUsuario: any = '';
+  perfilDatos: any;
+
+  estadoPago: string | null = null;
+
+  constructor(private carritoService: CarritoService, private route: ActivatedRoute, private authService: LoginService, private fb: FormBuilder, private router: Router) {
     this.usuarioLogueado$ = this.authService.isAuthenticated();
     this.perfilUsuario$ = this.authService.getUserProfile();
+    this.formularioVenta = this.fb.group({
+      rut_cliente: ['', Validators.required],
+      nombre_cliente: ['', Validators.required],
+      apellido_cliente: ['', Validators.required],
+      email_cliente: ['', Validators.required],
+      opcion_entrega: ['', Validators.required],
+      celular: ['', Validators.required],
+      region: [''],
+      comuna: [''],
+      calle: [''],
+      forma_pago: ['', Validators.required],
+    })
   }
 
   ngOnInit(): void {
+
+    this.route.paramMap.subscribe(params => {
+      this.estadoPago = params.get('estado'); // Obtén el valor del segmento de ruta
+    });
+
+
+    this.perfilUsuario$.subscribe({
+      next: (resp: Usuario) => {
+        this.perfilUsuario = resp;
+      }
+    })
     this.authService.fetchUserProfile();
+
+    if (this.perfilUsuario) {
+      this.authService.obtenerPerfilUsuario(this.perfilUsuario.id).subscribe({
+        next: (resp: any) => {
+          this.perfilDatos = resp;
+          console.log('datos', this.perfilDatos);
+          this.formularioVenta.patchValue({
+            email_cliente: this.perfilDatos.email,
+            rut_cliente: this.perfilDatos.profile.rut,
+            nombre_cliente: this.perfilDatos.first_name,
+            apellido_cliente: this.perfilDatos.last_name,
+            celular: this.perfilDatos.profile.celular,
+            region: this.perfilDatos.profile.region,
+            calle: this.perfilDatos.profile.calle,
+          })
+
+          this.cambiarRegion();
+
+          this.formularioVenta.patchValue({
+            comuna: this.perfilDatos.profile.comuna,
+          })
+        }
+      })
+    }
+
+
+
+
     this.carritoService.carrito$.subscribe((productos) => {
       this.carrito = productos || [];  // Asegúrate de que carrito no sea undefined
     });
@@ -131,6 +189,8 @@ export class CarritoComponent implements OnInit {
     }
   }
 
+
+
   quitarDelCarrito(producto: any) {
     this.carritoService.quitarDelCarrito(producto);  // Elimina el producto del carrito
   }
@@ -140,8 +200,8 @@ export class CarritoComponent implements OnInit {
     const subtotal = this.carrito.reduce((total, producto) => {
       return total + (producto.precio * producto.cantidad);
     }, 0); // Calcula el subtotal sumando precio * cantidad por cada producto
-    this.totalAPagar = subtotal + this.costoEnvio; 
-    return subtotal + this.costoEnvio; // Suma el costo de envío solo una vez
+    this.totalAPagar = subtotal;
+    return subtotal
   }
 
 
@@ -153,33 +213,40 @@ export class CarritoComponent implements OnInit {
 
   // Método para ir a la página de pago (puedes redirigir a otra página o implementar lógica aquí)
   irAPagar(): void {
-    this.isLoading = true;
-    if (this.formaDePago == 'tarjeta') {
-      const data = {
-        buy_order: 'ordenCompra12345',
-        session_id: 'sesion12345',
-        amount: this.totalAPagar,
-        return_url: 'http://localhost:4200/pago-confirmado'
-      };
+    if (this.formularioVenta.valid) {
+      const datosUsuario = this.formularioVenta.value;
+      localStorage.setItem('ventaFormulario', JSON.stringify(datosUsuario));
 
-      this.carritoService.getCSRFTokenFromServer().subscribe(response => {
-        this.carritoService.iniciarPago(data).subscribe(
-          (response: WebpayResponse) => {
-            this.isLoading = false;
-            // Redirige al usuario a la URL de Webpay
-            window.location.href = `${response.url}?token_ws=${response.token}`;
-          },
-          error => {
-            console.error('Error al iniciar el pago:', error);
-            this.isLoading = false;
-          }
-        );
-      });
-    } else {
-      setTimeout(() => {
-        this.isLoading = false;
-        this.router.navigateByUrl('/pago-confirmado')
-      }, 3000);
+      this.isLoading = true;
+      if (this.formaDePago == 'tarjeta') {
+        const data = {
+          buy_order: 'ordenCompra12345',
+          session_id: 'sesion12345',
+          amount: this.totalAPagar,
+          return_url: 'http://127.0.0.1:4200/pago-confirmado'
+        };
+
+        this.carritoService.getCSRFTokenFromServer().subscribe(response => {
+          this.carritoService.iniciarPago(data).subscribe(
+            (response: WebpayResponse) => {
+              this.isLoading = false;
+              // Redirige al usuario a la URL de Webpay
+              console.log(response);
+              window.location.href = `${response.url}?token_ws=${response.token}`;
+            },
+            error => {
+              console.error('Error al iniciar el pago:', error);
+              this.isLoading = false;
+            }
+          );
+        });
+      } else {
+        setTimeout(() => {
+          this.isLoading = false;
+          this.router.navigateByUrl('/pago-confirmado')
+        }, 3000);
+      }
+    }else{
     }
   }
 

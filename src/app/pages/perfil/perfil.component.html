@@ -1,1 +1,109 @@
-<p>perfil works!</p>
+<app-redes-sociales></app-redes-sociales>
+<app-header></app-header>
+
+<div class="container my-5">
+  <mat-tab-group>
+    <!-- Tab Mi Cuenta -->
+    <mat-tab label="Mi Cuenta">
+      <div class="p-3">
+        <h3>Mi Cuenta</h3>
+        <p class="fw-bold">
+          Bienvenid(a),
+          {{ perfilUsuario.first_name + " " + perfilUsuario.last_name }}
+        </p>
+        <hr class="my-3" />
+        <p class="fw-bold">
+          Información cuenta
+        </p>
+        <form action="">
+          <div class="row">
+            <div class="col-12 my-1">
+              <label for="">Email</label>
+              <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1"><i class="bi bi-envelope-at-fill"></i></span>
+                <input type="email" class="form-control" placeholder="Email" disabled value="{{perfilUsuario.email}}" aria-label="email" aria-describedby="basic-addon1">
+              </div>
+            </div>
+            <div class="col-6 my-1">
+              <label for="">Nombre</label>
+              <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1"><i class="bi bi-person-fill"></i></span>
+                <input type="text" class="form-control" placeholder="first_name"  value="{{perfilUsuario.first_name}}" aria-label="first_name" aria-describedby="basic-addon1">
+              </div>
+            </div>
+            <div class="col-6 my-1">
+              <label for="">Apellido</label>
+              <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1"><i class="bi bi-person-fill"></i></span>
+                <input type="text" class="form-control" placeholder="last_name"  value="{{perfilUsuario.last_name}}" aria-label="last_name" aria-describedby="basic-addon1">
+              </div>
+            </div>
+            <div class="col-12 my-2 text-end">
+              <button class="btn btn-primary">Guardar Cambios</button>
+            </div>
+            <hr class="my-3" />
+          </div>
+        </form>
+        <!-- <form action="">
+          <div class="row">
+            <p class="fw-bold">
+              Información contacto
+            </p>
+            <div class="col-6 my-1">
+              <label for="">Rut</label>
+              <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1"><i class="bi bi-person-badge-fill"></i></span>
+                <input type="text" class="form-control" placeholder="rut"  value="{{perfilDatos.profile.rut}}" aria-label="rut" aria-describedby="basic-addon1">
+              </div>
+            </div>
+            <div class="col-6 my-1">
+              <label for="">Celular</label>
+              <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1"><i class="bi bi-phone-fill"></i></span>
+                <input type="text" class="form-control" placeholder="rut"  value="{{perfilDatos.profile.celular}}" aria-label="rut" aria-describedby="basic-addon1">
+              </div>
+            </div>
+            <p class="fw-bold">
+              Información envio
+            </p>
+            <div class="col-6 my-1">
+              <label for="">Region</label>
+              <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1"><i class="bi bi-geo-alt-fill"></i></span>
+                <input type="text" class="form-control" placeholder="rut"  value="{{perfilDatos.profile.region}}" aria-label="rut" aria-describedby="basic-addon1">
+              </div>
+            </div>
+            <div class="col-6 my-1">
+              <label for="">Comuna</label>
+              <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1"><i class="bi bi-geo-alt-fill"></i></span>
+                <input type="text" class="form-control" placeholder="rut"  value="{{perfilDatos.profile.comuna}}" aria-label="rut" aria-describedby="basic-addon1">
+              </div>
+            </div>
+            <div class="col-6 my-1">
+              <label for="">Calle</label>
+              <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1"><i class="bi bi-geo-alt-fill"></i></span>
+                <input type="text" class="form-control" placeholder="rut"  value="{{perfilDatos.profile.calle}}" aria-label="rut" aria-describedby="basic-addon1">
+              </div>
+            </div>
+            <div class="col-12 my-2 text-end">
+              <button class="btn btn-info text-white">Guardar Cambios</button>
+            </div>
+            <hr class="my-3" />
+          </div>
+        </form> -->
+      </div>
+    </mat-tab>
+
+    <!-- Tab Mis Pedidos -->
+    <mat-tab label="Mis Pedidos ">
+      <div class="p-3">
+        <h3>Mis Pedidos</h3>
+        <p>Lista de pedidos realizados.</p>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>
+
+<app-footer></app-footer>

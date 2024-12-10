@@ -8,6 +8,7 @@ import { NuevaPasswordComponent } from './pages/nueva-password/nueva-password.co
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 import { AdministracionComponent } from './pages/administracion/administracion.component';
 import { PagoConfirmadoComponent } from './pages/pago-confirmado/pago-confirmado.component';
+import { PerfilComponent } from './pages/perfil/perfil.component';
 
 export const routes: Routes = [
     {
@@ -35,8 +36,16 @@ export const routes: Routes = [
         component : CarritoComponent
     },
     {
+        path: 'carrito/:estado',
+        component : CarritoComponent
+    },
+    {
         path: 'admin',
         component : AdministracionComponent
+    },
+    {
+        path: 'mi-perfil',
+        component : PerfilComponent
     },
     {
         path: 'pago-confirmado',
