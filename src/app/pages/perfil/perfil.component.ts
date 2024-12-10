@@ -5,12 +5,15 @@ import { RedesSocialesComponent } from '../../components/redes-sociales/redes-so
 import {MatTabsModule} from '@angular/material/tabs';
 import { Observable } from 'rxjs';
 import { LoginService } from '../../services/login.service';
-import { Usuario } from '../../interfaces/bermellona';
+import { Usuario, Venta } from '../../interfaces/bermellona';
+import { AdministracionService } from '../../services/administracion.service';
+import { MonedaChilenaPipe } from "../../pipes/moneda-chilena.pipe";
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-perfil',
   standalone: true,
-  imports: [HeaderComponent, FooterComponent, RedesSocialesComponent, MatTabsModule],
+  imports: [HeaderComponent, FooterComponent, RedesSocialesComponent, MatTabsModule, MonedaChilenaPipe, CommonModule],
   templateUrl: './perfil.component.html',
   styleUrl: './perfil.component.scss'
 })
@@ -21,7 +24,9 @@ export class PerfilComponent implements OnInit {
   perfilUsuario : any;
   perfilDatos  : any;;
 
-  constructor(private authService : LoginService){
+  ventas: Venta[] = []
+
+  constructor(private authService : LoginService, private administracionService : AdministracionService){
     this.usuarioLogueado$ = this.authService.isAuthenticated();
     this.perfilUsuario$ = this.authService.getUserProfile();
     this.perfilUsuario$.subscribe({
@@ -29,9 +34,6 @@ export class PerfilComponent implements OnInit {
         this.perfilUsuario = resp;
       }
     })
-
-   
-
   }
 
   ngOnInit(): void {
@@ -39,6 +41,12 @@ export class PerfilComponent implements OnInit {
     this.authService.obtenerPerfilUsuario(this.perfilUsuario.id).subscribe({
       next : (resp : any) => {
        this.perfilDatos = resp;
+      }
+    })
+
+    this.administracionService.obtenerVentasCliente(this.perfilUsuario.id).subscribe({
+      next : (resp : Venta[]) => {
+        this.ventas = resp;
       }
     })
   }

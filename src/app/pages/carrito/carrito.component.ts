@@ -118,7 +118,7 @@ export class CarritoComponent implements OnInit {
       rut_cliente: ['', Validators.required],
       nombre_cliente: ['', Validators.required],
       apellido_cliente: ['', Validators.required],
-      email_cliente: ['', Validators.required],
+      email_cliente: ['',[Validators.required, Validators.email]],
       opcion_entrega: ['', Validators.required],
       celular: ['', Validators.required],
       region: [''],
@@ -129,7 +129,6 @@ export class CarritoComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     this.route.paramMap.subscribe(params => {
       this.estadoPago = params.get('estado'); // Obtén el valor del segmento de ruta
     });
@@ -149,18 +148,8 @@ export class CarritoComponent implements OnInit {
           console.log('datos', this.perfilDatos);
           this.formularioVenta.patchValue({
             email_cliente: this.perfilDatos.email,
-            rut_cliente: this.perfilDatos.profile.rut,
             nombre_cliente: this.perfilDatos.first_name,
             apellido_cliente: this.perfilDatos.last_name,
-            celular: this.perfilDatos.profile.celular,
-            region: this.perfilDatos.profile.region,
-            calle: this.perfilDatos.profile.calle,
-          })
-
-          this.cambiarRegion();
-
-          this.formularioVenta.patchValue({
-            comuna: this.perfilDatos.profile.comuna,
           })
         }
       })
@@ -214,10 +203,10 @@ export class CarritoComponent implements OnInit {
   // Método para ir a la página de pago (puedes redirigir a otra página o implementar lógica aquí)
   irAPagar(): void {
     if (this.formularioVenta.valid) {
+      this.isLoading = true;
       const datosUsuario = this.formularioVenta.value;
       localStorage.setItem('ventaFormulario', JSON.stringify(datosUsuario));
 
-      this.isLoading = true;
       if (this.formaDePago == 'tarjeta') {
         const data = {
           buy_order: 'ordenCompra12345',
@@ -252,12 +241,33 @@ export class CarritoComponent implements OnInit {
 
   habilitarOpciones(tipo: string): void {
     if (tipo === 'retiro') {
-      this.opcionEntrega = 'retiro'
+      this.opcionEntrega = 'retiro';
       this.costoEnvio = 0;
+  
+      // Eliminar validaciones de los campos opcionales
+      this.formularioVenta.get('region')?.clearValidators();
+      this.formularioVenta.get('comuna')?.clearValidators();
+      this.formularioVenta.get('calle')?.clearValidators();
+  
+      // Actualizar estado del formulario
+      this.formularioVenta.get('region')?.updateValueAndValidity();
+      this.formularioVenta.get('comuna')?.updateValueAndValidity();
+      this.formularioVenta.get('calle')?.updateValueAndValidity();
     } else if (tipo === 'despacho') {
-      this.opcionEntrega = 'despacho'
+      this.opcionEntrega = 'despacho';
+  
+      // Agregar validaciones a los campos opcionales
+      this.formularioVenta.get('region')?.setValidators(Validators.required);
+      this.formularioVenta.get('comuna')?.setValidators(Validators.required);
+      this.formularioVenta.get('calle')?.setValidators(Validators.required);
+  
+      // Actualizar estado del formulario
+      this.formularioVenta.get('region')?.updateValueAndValidity();
+      this.formularioVenta.get('comuna')?.updateValueAndValidity();
+      this.formularioVenta.get('calle')?.updateValueAndValidity();
     }
   }
+  
 
   cambiarRegion(): void {
     const regionEncontrada = this.regiones.find(

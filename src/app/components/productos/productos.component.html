@@ -29,13 +29,21 @@
 
           <div class="d-flex justify-content-center gap-2 align-items-center">
             <button
-              *ngIf="!enCarrito(producto)"
+              *ngIf="!enCarrito(producto) && producto.cantidad > 0"
               class="btn btn-success"
               [disabled]="producto.cantidadSeleccionada > producto.cantidad"
               (click)="agregarAlCarrito(producto)"
             >
               <i class="bi bi-bag-plus-fill"></i> Añadir al carrito
             </button>
+            <button
+            *ngIf=" !enCarrito(producto) && producto.cantidad < 1"
+            class="btn btn-danger"
+            [disabled]="producto.cantidadSeleccionada > producto.cantidad || producto.cantidad < 1"
+            (click)="agregarAlCarrito(producto)"
+          >
+            <i class="bi bi-bag-plus-fill"></i> Sin Stock 
+          </button>
             <button
               *ngIf="enCarrito(producto)"
               class="btn btn-danger"

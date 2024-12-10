@@ -1,102 +1,54 @@
 <div class="container my-5">
-  <div class="row justify-content-between align-items-center my-5">
-    <!-- Buscador -->
-    <div class="col-md-6 d-flex align-items-center">
-      <div class="input-group" style="width: 50%">
-        <span class="input-group-text bg-success text-white">
-          <i class="bi bi-search"></i>
-        </span>
-        <input
-          type="search"
-          class="form-control"
-          placeholder="Buscar requerimiento"
-        />
-      </div>
-    </div>
-  </div>
-
   <div class="table-responsive">
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
       <ng-container matColumnDef="nombre">
-        <th
-          mat-header-cell
-          *matHeaderCellDef
-          class="bg-dark text-white fw-bold"
-        >
+        <th mat-header-cell *matHeaderCellDef class="bg-dark text-white fw-bold">
           Nombres
         </th>
-        <td mat-cell *matCellDef="let element">
-          {{ element.nombre | uppercase }}
-        </td>
+        <td mat-cell *matCellDef="let element">{{ element.nombre | uppercase }}</td>
       </ng-container>
 
       <ng-container matColumnDef="email">
-        <th
-          mat-header-cell
-          *matHeaderCellDef
-          class="bg-dark text-white fw-bold"
-        >
-          Correo Electronico
+        <th mat-header-cell *matHeaderCellDef class="bg-dark text-white fw-bold">
+          Correo Electrónico
         </th>
-        <td mat-cell *matCellDef="let element">
-          {{ element.correo_electronico | uppercase }}
-        </td>
+        <td mat-cell *matCellDef="let element">{{ element.correo_electronico | uppercase }}</td>
       </ng-container>
 
       <ng-container matColumnDef="motivo">
-        <th
-          mat-header-cell
-          *matHeaderCellDef
-          class="bg-dark text-white fw-bold"
-        >
+        <th mat-header-cell *matHeaderCellDef class="bg-dark text-white fw-bold">
           Motivo
         </th>
-        <td mat-cell *matCellDef="let element">
-          {{ element.motivo | uppercase }}
-        </td>
+        <td mat-cell *matCellDef="let element">{{ element.motivo | uppercase }}</td>
       </ng-container>
 
       <ng-container matColumnDef="mensaje">
-        <th
-          mat-header-cell
-          *matHeaderCellDef
-          class="bg-dark text-white fw-bold"
-        >
+        <th mat-header-cell *matHeaderCellDef class="bg-dark text-white fw-bold">
           Mensaje
         </th>
-        <td mat-cell *matCellDef="let element">
-          {{ element.mensaje | uppercase }}
-        </td>
+        <td mat-cell *matCellDef="let element">{{ element.mensaje | uppercase }}</td>
       </ng-container>
 
       <ng-container matColumnDef="estado">
-        <th
-          mat-header-cell
-          *matHeaderCellDef
-          class="bg-dark text-white fw-bold"
-        >
+        <th mat-header-cell *matHeaderCellDef class="bg-dark text-white fw-bold">
           Estado
         </th>
-        <td mat-cell *matCellDef="let element">
-          {{ element.estado | uppercase }}
-        </td>
+        <td mat-cell *matCellDef="let element">{{ element.estado | uppercase }}</td>
       </ng-container>
 
       <ng-container matColumnDef="acciones">
-        <th
-          mat-header-cell
-          *matHeaderCellDef
-          class="bg-dark text-white fw-bold"
-        >
+        <th mat-header-cell *matHeaderCellDef class="bg-dark text-white fw-bold">
           Acciones
         </th>
         <td mat-cell *matCellDef="let element">
           <button
-            title="Cambiar estado"
-            class="btn btn-warning mx-2"
-          >
-            <i class="bi bi-pen-fill"></i>
-          </button>
+          mat-button
+          class="btn btn-warning mx-2"
+          
+          title="Cambiar estado"
+        >
+          <i class="bi bi-pen-fill"></i>
+        </button>
         </td>
       </ng-container>
 
@@ -104,9 +56,45 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
   </div>
-
-  <mat-paginator
-    [pageSizeOptions]="[5, 10, 25, 100]"
-    aria-label="Select page of users"
-  ></mat-paginator>
 </div>
+
+<!-- Modal -->
+<!-- <div
+  class="modal fade"
+  id="estadoModal"
+  tabindex="-1"
+  aria-labelledby="estadoModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="estadoModalLabel">Actualizar Estado del Soporte</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p><strong>Nombre:</strong> {{ soporteSeleccionado?.nombre }}</p>
+        <p><strong>Motivo:</strong> {{ soporteSeleccionado?.motivo }}</p>
+        <p><strong>Mensaje:</strong> {{ soporteSeleccionado?.mensaje }}</p>
+        <div class="form-group">
+          <label for="estado">Estado</label>
+          <input type="text" class="form-control" id="estado" [(ngModel)]="nuevoEstado" disabled />
+        </div>
+        <div class="form-group mt-3">
+          <label for="resolucion">Resolución</label>
+          <textarea
+            class="form-control"
+            id="resolucion"
+            rows="3"
+            [(ngModel)]="mensajeResolucion"
+            placeholder="Escribe la resolución del soporte"
+          ></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary" (click)="actualizarEstado()">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div> -->

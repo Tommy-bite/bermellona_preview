@@ -52,7 +52,7 @@
               <span class="input-group-text bg-success text-white">
                 <i class="bi bi-search"></i>
               </span>
-              <input type="search" class="form-control" placeholder="Buscar productos" />
+              <input type="search" class="form-control" placeholder="Buscar productos"  (keyup)="applyFilter($event)" />
             </div>
           </div>
 
@@ -136,7 +136,7 @@
     </div>
     <!-- PRODUCTOS -->
     <div class="tab-pane fade" id="ventas" role="tabpanel" aria-labelledby="ventas-tab">
-      <p>Contenido de la pestaña Ventas.</p>
+      <app-ventas></app-ventas>
     </div>
     <!-- VENTAS -->
     <div class="tab-pane fade" id="usuarios" role="tabpanel" aria-labelledby="usuarios-tab">

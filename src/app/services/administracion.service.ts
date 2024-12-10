@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs';
-import { Producto, Soporte, Usuario } from '../interfaces/bermellona';
+import { Producto, Soporte, Usuario, Venta } from '../interfaces/bermellona';
 
 @Injectable({
   providedIn: 'root'
@@ -50,4 +50,23 @@ export class AdministracionService {
   obtenerSoporte() : Observable<Soporte[]> {
     return this.http.get<Soporte[]>(`${environment.apiUrl}/soporte`);
   }
+
+  /* CRUD VENTAS */
+  obtenerVentas() : Observable<Venta[]>{
+    return this.http.get<Venta[]>(`${environment.apiUrl}/ventas`);
+  }
+
+  actualizarEstado(id: number, data: any): Observable<any> {
+    return this.http.patch(`${environment.apiUrl}/ventas/${id}/`,  data );
+  }
+
+  obtenerVentasCliente(id: number): Observable<any> {
+    return this.http.get(`${environment.apiUrl}/ventas/cliente/${id}/`);
+  }
+
+  actualizarEstadoSoporte(id : any, data : any){
+    return this.http.patch(`${environment.apiUrl}/soporte/${id}/actualizar-estado/`, data);
+  }
+  
+  
 }

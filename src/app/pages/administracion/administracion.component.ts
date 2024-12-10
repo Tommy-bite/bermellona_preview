@@ -29,6 +29,7 @@ import Notiflix from 'notiflix';
 import { ClientesComponent } from './clientes/clientes.component';
 import { SoporteComponent } from './soporte/soporte.component';
 import { RouterModule } from '@angular/router';
+import { VentasComponent } from './ventas/ventas.component';
 
 
 @Component({
@@ -51,7 +52,8 @@ import { RouterModule } from '@angular/router';
     LoadingSpinnerComponent,
     ClientesComponent,
     SoporteComponent,
-    RouterModule
+    RouterModule,
+    VentasComponent
   ],
   templateUrl: './administracion.component.html',
   styleUrl: './administracion.component.scss'
@@ -62,6 +64,9 @@ export class AdministracionComponent implements OnInit {
 
   displayedColumns: string[] = ['nombre', 'imagen', 'descripcion', 'destacado','cantidad', 'precio', 'acciones'];
   dataSource = new MatTableDataSource<Producto>();
+
+  productosFiltrados: Producto[] = []; // Lista filtrada de productos
+  filtro: string = ''; // Texto del input de búsqueda
 
   @ViewChild(MatPaginator) paginator !: MatPaginator;
   @ViewChild(MatSort) sort !: MatSort;
@@ -83,6 +88,11 @@ export class AdministracionComponent implements OnInit {
         this.isLoading = false;
       }
     })
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
   renderizarTabla() {

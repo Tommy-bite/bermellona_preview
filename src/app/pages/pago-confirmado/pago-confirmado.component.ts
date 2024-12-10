@@ -16,6 +16,7 @@ export class PagoConfirmadoComponent {
   token_ws: string | null = null;
   estadoPago: string = ''
   transaccion : any;
+  metodo_pago : any;
 
   constructor(
     private route: ActivatedRoute,
@@ -33,9 +34,63 @@ export class PagoConfirmadoComponent {
     });
 
     if (!this.token_ws) {
-      this.handlePaymentError('No se recibió un token válido.');
       this.notificacionesService.removeLoading()
-      this.carritoService.limpiarCarritoYFormulario();
+      this.estadoPago = 'aprobada';
+
+      const carrito = this.carritoService.obtenerCarritoDeStorage(); 
+      console.log(carrito);
+      if (!carrito || carrito.length === 0) {
+        console.error('El carrito está vacío o no es válido:', carrito);
+        this.notificacionesService.removeLoading()
+        this.router.navigate(['/carrito', 'rechazada']);
+        this.estadoPago = '';
+        return;
+      }
+
+      const datosFormulario = localStorage.getItem('ventaFormulario');
+      const datosVenta = datosFormulario ? JSON.parse(datosFormulario) : null;
+
+      const usuario = localStorage.getItem('userProfile');
+      const usuarioObjeto = usuario ? JSON.parse(usuario) : null;
+      let idUsuario = usuarioObjeto?.id;
+
+      const today = new Date();
+
+      if(datosVenta){
+        const venta = {
+          ...datosVenta,
+          descuento: 0, // Si existe descuento, incluirlo
+          valor_total: carrito.reduce((total: number, item: any) => total + item.precio * item.cantidad, 0),
+          estado : 'pendiente',
+          fecha: today,
+          usuario : idUsuario,
+          productos: carrito.map((item: any) => ({
+            id: item.id,
+            nombre: item.nombre,
+            precio: item.precio,
+            cantidad: item.cantidad
+          })),
+          tokenWebpay : this.token_ws || ''
+        };
+
+        console.log('venta', venta);
+        this.carritoService.guardarVenta(venta).subscribe({
+          next : (resp : any) => {
+            this.estadoPago = 'aprobada'
+            this.notificacionesService.removeLoading();
+            this.handleTransaction('aprobada', this.transaccion);
+            this.carritoService.limpiarCarritoYFormulario();
+
+          },
+          error : (error : any) => {
+            this.notificacionesService.removeLoading();
+            this.estadoPago = 'rechazada'
+            this.handleTransaction('rechazada', this.transaccion);
+
+          }
+        })
+      }
+
       return;
     }
 
@@ -80,13 +135,11 @@ export class PagoConfirmadoComponent {
               tokenWebpay : this.token_ws
             };
 
-
-
             console.log('venta', venta);
             this.carritoService.guardarVenta(venta).subscribe({
               next : (resp : any) => {
-                this.notificacionesService.removeLoading();
                 this.estadoPago = 'aprobada'
+                this.notificacionesService.removeLoading();
                 this.handleTransaction('aprobada', this.transaccion);
                 this.carritoService.limpiarCarritoYFormulario();
 
